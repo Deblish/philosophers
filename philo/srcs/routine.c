@@ -28,10 +28,11 @@ static void	print_state(t_table *table, int id, const char *msg)
 static void	philo_eat(t_philo *philo)
 {
 	t_table	*table;
-	//long	now;
+	long	now;
 
 	table = philo->table;
-	philo->last_meal_time = ft_get_time_in_ms(); //just before printing
+	now = ft_get_time_in_ms();
+	philo->last_meal_time = now; //just before printing
 	print_state(table, philo->id, "is eating");
 	ft_usleep(table->time_to_eat); //philosopher eats (holds both forks)
 	philo->eat_count += 1;
@@ -45,7 +46,7 @@ static void	pickup_forks(t_philo *philo)
 	int	right;
 	int	tmp;
 
-	left = (philo->id - 1);
+	left = philo->id - 1;
 	right = philo->id % philo->table->num_philos;
 	//prevents deadlock, pick the lowest n fork first
 	if (left > right)
@@ -66,7 +67,7 @@ static void	putdown_forks(t_philo *philo)
 	int	left;
 	int	right;
 
-	left = (philo->id - 1);
+	left = philo->id - 1;
 	right = philo->id % philo->table->num_philos;
 
 	pthread_mutex_unlock(&philo->table->forks[left]);
@@ -81,12 +82,13 @@ void	*philo_routine(void *arg)
 	philo = (t_philo *)arg;
 	table = philo->table;
 
-	//handle: if 0? if 1 philosopher, only one fork available, leads to deadlock
+	//handle: if 0? if 1 philosopher, only one fork available -> deadlock
 	while (table->simulation_running && !philo->done)
 	{
-		pickup_forks(philo);
+		//pickup_forks(philo);
 		if (!table->simulation_running) //sim already ended?
 			break ;
+		pickup_forks(philo);
 		philo_eat(philo);
 		putdown_forks(philo);
 		//sleep
@@ -94,7 +96,7 @@ void	*philo_routine(void *arg)
 		ft_usleep(table->time_to_sleep);
 		//think
 		print_state(table, philo->id, "is thinking");
-		ft_usleep(1); //avoid immediate grab fork
+		//ft_usleep(1); //avoid immediate grab fork
 	}
 	return (NULL);
 }

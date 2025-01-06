@@ -6,7 +6,7 @@
 /*   By: aapadill <aapadill@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 20:06:52 by aapadill          #+#    #+#             */
-/*   Updated: 2025/01/05 20:06:54 by aapadill         ###   ########.fr       */
+/*   Updated: 2025/01/06 15:55:06 by aapadill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	philo_eat(t_philo *philo)
 	print_state(table, philo->id, "is eating");
 	ft_usleep(table->time_to_eat); //philosopher eats (holds both forks)
 	philo->eat_count += 1;
-	if (table->must_eat && philo->eat_count >= table->must_eat_count) //forcing stop
+	if (table->must_eat && philo->eat_count >= table->must_eat_count)
 		philo->done = 1;
 }
 
@@ -69,7 +69,6 @@ static void	putdown_forks(t_philo *philo)
 
 	left = philo->id - 1;
 	right = philo->id % philo->table->num_philos;
-
 	pthread_mutex_unlock(&philo->table->forks[left]);
 	pthread_mutex_unlock(&philo->table->forks[right]);
 }
@@ -81,7 +80,6 @@ void	*philo_routine(void *arg)
 
 	philo = (t_philo *)arg;
 	table = philo->table;
-
 	//handle: if 0? if 1 philosopher, only one fork available -> deadlock
 	while (table->simulation_running && !philo->done)
 	{

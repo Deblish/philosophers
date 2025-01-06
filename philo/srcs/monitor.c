@@ -6,7 +6,7 @@
 /*   By: aapadill <aapadill@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 14:55:30 by aapadill          #+#    #+#             */
-/*   Updated: 2025/01/03 14:55:32 by aapadill         ###   ########.fr       */
+/*   Updated: 2025/01/06 15:59:33 by aapadill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static void	announce_death(t_table *table, int id)
 {
 	long	timestamp;
 
-	/* It's safer to lock printing */
 	pthread_mutex_lock(&table->print_lock);
 	timestamp = ft_get_time_in_ms() - table->start_time;
 	printf("%ld %d died\n", timestamp, id);
@@ -29,7 +28,6 @@ void	*monitor_routine(void *arg)
 	int		i;
 	long	now;
 	int		done_count;
-	//int		eaten_count;
 
 	table = (t_table *)arg;
 	while (table->simulation_running)

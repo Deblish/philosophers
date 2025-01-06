@@ -6,7 +6,7 @@
 /*   By: aapadill <aapadill@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 11:13:43 by aapadill          #+#    #+#             */
-/*   Updated: 2025/01/03 14:57:52 by aapadill         ###   ########.fr       */
+/*   Updated: 2025/01/06 15:54:02 by aapadill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,7 @@ int	parse_args(int argc, char **argv, t_table *table)
 			return (0);
 		table->must_eat = 1;
 	}
-
 	if (table->num_philos < 1 || table->num_philos > 200)
 		return (0);
-
 	return (1);
 }

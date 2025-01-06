@@ -5,8 +5,6 @@ CFLAGS = -Wall -Wextra -Werror
 HEADER = philo.h
 
 SOURCES = srcs/libft.c \
-		  srcs/gc_utils.c \
-		  srcs/gc_alloc.c \
 		  srcs/time.c \
 		  srcs/parse.c \
 		  srcs/monitor.c \

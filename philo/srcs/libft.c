@@ -6,13 +6,13 @@
 /*   By: aapadill <aapadill@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:32:11 by aapadill          #+#    #+#             */
-/*   Updated: 2025/01/03 17:32:29 by aapadill         ###   ########.fr       */
+/*   Updated: 2025/01/06 16:00:53 by aapadill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static int is_space(char c)
+static int	is_space(char c)
 {
 	return (c == 32 || (c >= 9 && c <= 13));
 }
@@ -22,9 +22,9 @@ static int	ft_isdigit(int c)
 	return (c >= '0' && c <= '9');
 }
 
-int ft_strlen(const char *str)
+int	ft_strlen(const char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
@@ -78,4 +78,3 @@ int	ft_atoi(const char *str)
 	}
 	return ((int)(result * sign));
 }
-

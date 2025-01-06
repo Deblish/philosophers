@@ -6,7 +6,7 @@
 /*   By: aapadill <aapadill@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 14:17:12 by aapadill          #+#    #+#             */
-/*   Updated: 2025/01/03 14:58:08 by aapadill         ###   ########.fr       */
+/*   Updated: 2025/01/06 15:58:06 by aapadill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int	start_simulation(t_table *table)
 	pthread_t	monitor_thread;
 
 	table->start_time = ft_get_time_in_ms();
-
 	//create each philosopher thread
 	i = 0;
 	while (i < table->num_philos)
@@ -65,8 +64,5 @@ int	start_simulation(t_table *table)
 		return (0);
 	//destroy all mutexes and free
 	destroy_resources(table);
-
 	return (1);
 }
-
-

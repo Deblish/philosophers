@@ -35,13 +35,16 @@ void	*monitor_routine(void *arg)
 		i = 0;
 		while (i < table->num_philos && table->simulation_running)
 		{
-			//lock around reading philo->last_meal_time
-			now = ft_get_time_in_ms();
-			if ((now - table->philos[i].last_meal_time) >= table->time_to_die)
+			if (!table->philos[i].done)
 			{
-				table->simulation_running = 0;
-				announce_death(table, table->philos[i].id);
-				break ;
+				//lock around reading philo->last_meal_time
+				now = ft_get_time_in_ms();
+				if ((now - table->philos[i].last_meal_time) >= table->time_to_die)
+				{
+					table->simulation_running = 0;
+					announce_death(table, table->philos[i].id);
+					break ;
+				}
 			}
 			i++;
 		}
@@ -58,7 +61,7 @@ void	*monitor_routine(void *arg)
 			if (done_count == table->num_philos)
 			{
 				table->simulation_running = 0;
-			//	break ;
+				//break ;
 			}
 		}
 		ft_usleep(1);

@@ -44,22 +44,24 @@ static void	pickup_forks(t_philo *philo)
 {
 	int	left;
 	int	right;
-	int	tmp;
 
 	left = philo->id - 1;
 	right = philo->id % philo->table->num_philos;
-	//prevents deadlock, pick the lowest n fork first
-	if (left > right)
+	//prevents deadlock, pick even's right fork first
+	if (philo->id % 2 == 0)
 	{
-		tmp = left;
-		left = right;
-		right = tmp;
+		pthread_mutex_lock(&philo->table->forks[right]);
+		print_state(philo->table, philo->id, "has taken a fork");
+		pthread_mutex_lock(&philo->table->forks[left]);
+		print_state(philo->table, philo->id, "has taken a fork");
 	}
-	//lock forks in left right order
-	pthread_mutex_lock(&philo->table->forks[left]);
-	print_state(philo->table, philo->id, "has taken a fork");
-	pthread_mutex_lock(&philo->table->forks[right]);
-	print_state(philo->table, philo->id, "has taken a fork");
+	else
+	{
+		pthread_mutex_lock(&philo->table->forks[left]);
+		print_state(philo->table, philo->id, "has taken a fork");
+		pthread_mutex_lock(&philo->table->forks[right]);
+		print_state(philo->table, philo->id, "has taken a fork");
+	}
 }
 
 static void	putdown_forks(t_philo *philo)

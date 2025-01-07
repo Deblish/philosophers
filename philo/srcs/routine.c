@@ -75,6 +75,13 @@ static void	putdown_forks(t_philo *philo)
 	pthread_mutex_unlock(&philo->table->forks[right]);
 }
 
+void	*single_philo_case(t_table *table, t_philo *philo)
+{
+	print_state(table, philo->id, "has taken a fork");
+	ft_usleep(table->time_to_die);
+	return (NULL);
+}
+
 void	*philo_routine(void *arg)
 {
 	t_philo	*philo;
@@ -82,7 +89,9 @@ void	*philo_routine(void *arg)
 
 	philo = (t_philo *)arg;
 	table = philo->table;
-	//handle: if 0? if 1 philosopher, only one fork available -> deadlock
+	//handle: if 0?
+	if (table->num_philos == 1)
+		return (single_philo_case(table, philo));
 	while (table->simulation_running && !philo->done)
 	{
 		//think

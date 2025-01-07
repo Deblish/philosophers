@@ -64,8 +64,7 @@ void	*monitor_routine(void *arg)
 				//break ;
 			}
 		}
-		ft_usleep(1);
-		//usleep(1000); //check every 1ms (small cpu optimization)
+		ft_usleep(1); //(small cpu optimization)
 	}
 	return (NULL);
 }

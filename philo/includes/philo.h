@@ -6,14 +6,16 @@
 /*   By: aapadill <aapadill@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 18:56:44 by aapadill          #+#    #+#             */
-/*   Updated: 2025/01/03 17:33:24 by aapadill         ###   ########.fr       */
+/*   Updated: 2025/01/07 18:12:17 by aapadill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-# include <pthread.h> //pthread_t: create, join, detach //pthread_mutex_t: init, lock, unlock, destroy
+//pthread_t: create, join, detach 
+//pthread_mutex_t: init, lock, unlock, destroy
+# include <pthread.h> 
 # include <stdio.h> //printf 
 # include <stdlib.h> //malloc, free
 # include <unistd.h> //usleep, write
@@ -21,11 +23,11 @@
 # include <limits.h> //INT_MAX, INT_MIN
 # include <string.h> //memset
 
-typedef struct s_table t_table;
+typedef struct s_table	t_table;
 
 //optional typedefs to make code (a little) more readable
-typedef pthread_t t_thread;
-typedef pthread_mutex_t t_mutex;
+typedef pthread_t		t_thread;
+typedef pthread_mutex_t	t_mutex;
 
 typedef struct s_philo
 {

@@ -6,7 +6,7 @@
 /*   By: aapadill <aapadill@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 11:19:27 by aapadill          #+#    #+#             */
-/*   Updated: 2025/01/06 15:57:51 by aapadill         ###   ########.fr       */
+/*   Updated: 2025/01/07 18:18:19 by aapadill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	init_table(t_table *table)
 	table->forks = malloc(sizeof(t_mutex) * table->num_philos);
 	if (!table->forks)
 		return (0);
-	//remove when gc_alloc is implemented
 	memset(table->forks, 0, sizeof(t_mutex) * table->num_philos);
 	//init fork
 	i = 0;
@@ -38,21 +37,20 @@ int	init_table(t_table *table)
 	if (!table->philos)
 		//free forks
 		return (0);
-	//just because i havent implemented gc_alloc yet
 	memset(table->philos, 0, sizeof(t_philo) * table->num_philos);
 	//init philosopher info
 	i = 0;
 	while (i < table->num_philos)
 	{
 		table->philos[i].id = i + 1; //numbered 1..n
-		table->philos[i].eat_count = 0;
-		table->philos[i].last_meal_time = 0;
-		table->philos[i].done = 0;
+		table->philos[i].eat_count = 0; //erasable because memset 0
+		table->philos[i].last_meal_time = 0; //same
+		table->philos[i].done = 0; //same
 		table->philos[i].table = table;
 		//thread init done in start_simulation
 		i++;
 	}
 	table->simulation_running = 1; //table exists, so true
-	table->start_time = 0; //simulation start time goes here
+	table->start_time = 0; //erasable because of memset 0 in main
 	return (1);
 }

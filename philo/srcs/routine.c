@@ -6,7 +6,7 @@
 /*   By: aapadill <aapadill@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 20:06:52 by aapadill          #+#    #+#             */
-/*   Updated: 2025/01/06 15:55:06 by aapadill         ###   ########.fr       */
+/*   Updated: 2025/01/07 18:18:54 by aapadill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	*philo_routine(void *arg)
 	{
 		//think
 		print_state(table, philo->id, "is thinking");
-			ft_usleep(1); //avoid immediate grab fork
+		ft_usleep(1); //avoid immediate grab fork
 		//sim already ended?
 		if (!table->simulation_running)
 			break ;

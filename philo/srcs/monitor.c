@@ -47,23 +47,6 @@ void	*monitor_routine(void *arg)
 		}
 		if (table->must_eat)
 		{
-			/*
-			//v1
-			eaten_count = 0;
-			i = 0;
-			while (i < table->num_philos)
-			{
-				if (table->philos[i].eat_count >= table->must_eat_count)
-					eaten_count++;
-				i++;
-			}
-			if (eaten_count == table->num_philos)
-			{
-				table->simulation_running = 0;
-				//break ;
-			}
-			*/
-			//v2
 			done_count = 0;
 			i = 0;
 			while (i < table->num_philos)
@@ -75,10 +58,11 @@ void	*monitor_routine(void *arg)
 			if (done_count == table->num_philos)
 			{
 				table->simulation_running = 0;
-				//break ;
+			//	break ;
 			}
 		}
-		usleep(1000); //check every 1ms (small cpu optimization)
+		ft_usleep(1);
+		//usleep(1000); //check every 1ms (small cpu optimization)
 	}
 	return (NULL);
 }

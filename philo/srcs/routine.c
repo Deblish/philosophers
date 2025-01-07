@@ -83,8 +83,11 @@ void	*philo_routine(void *arg)
 	//handle: if 0? if 1 philosopher, only one fork available -> deadlock
 	while (table->simulation_running && !philo->done)
 	{
-		//pickup_forks(philo);
-		if (!table->simulation_running) //sim already ended?
+		//think
+		print_state(table, philo->id, "is thinking");
+			ft_usleep(1); //avoid immediate grab fork
+		//sim already ended?
+		if (!table->simulation_running)
 			break ;
 		pickup_forks(philo);
 		philo_eat(philo);
@@ -92,9 +95,6 @@ void	*philo_routine(void *arg)
 		//sleep
 		print_state(table, philo->id, "is sleeping");
 		ft_usleep(table->time_to_sleep);
-		//think
-		print_state(table, philo->id, "is thinking");
-		//ft_usleep(1); //avoid immediate grab fork
 	}
 	return (NULL);
 }

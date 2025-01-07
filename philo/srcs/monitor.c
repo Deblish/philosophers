@@ -22,12 +22,42 @@ static void	announce_death(t_table *table, int id)
 	pthread_mutex_unlock(&table->print_lock);
 }
 
+static int	philo_starved(t_table *table, int i)
+{
+	long	waited;
+
+	if (!table->philos[i].done)
+	{
+		//lock around reading philo->last_meal_time
+		waited = ft_get_time_in_ms() - table->philos[i].last_meal_time;
+		if (waited >= table->time_to_die)
+		{
+			table->simulation_running = 0;
+			announce_death(table, table->philos[i].id);
+			return (1);
+		}
+	}
+	return (0);
+}
+
+static int	is_everyone_full(t_table *table)
+{
+	int	i;
+
+	i = 0;
+	while (i < table->num_philos)
+	{
+		if (!table->philos[i].done)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 void	*monitor_routine(void *arg)
 {
 	t_table	*table;
 	int		i;
-	long	now;
-	int		done_count;
 
 	table = (t_table *)arg;
 	while (table->simulation_running)
@@ -35,33 +65,16 @@ void	*monitor_routine(void *arg)
 		i = 0;
 		while (i < table->num_philos && table->simulation_running)
 		{
-			if (!table->philos[i].done)
-			{
-				//lock around reading philo->last_meal_time
-				now = ft_get_time_in_ms();
-				if ((now - table->philos[i].last_meal_time) >= table->time_to_die)
-				{
-					table->simulation_running = 0;
-					announce_death(table, table->philos[i].id);
-					break ;
-				}
-			}
+			if (philo_starved(table, i))
+				break ;
 			i++;
 		}
 		if (table->must_eat)
 		{
-			done_count = 0;
-			i = 0;
-			while (i < table->num_philos)
-			{
-				if (table->philos[i].done)
-					done_count++;
-				i++;
-			}
-			if (done_count == table->num_philos)
+			if (is_everyone_full(table))
 			{
 				table->simulation_running = 0;
-				//break ;
+				break ;
 			}
 		}
 		ft_usleep(1); //(small cpu optimization)

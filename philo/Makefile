@@ -4,7 +4,7 @@ INCLUDES = -Iincludes
 CFLAGS = -Wall -Wextra -Werror
 HEADER = philo.h
 
-SOURCES = srcs/libft.c \
+SOURCES = srcs/ft_atoi.c \
 		  srcs/time.c \
 		  srcs/parse.c \
 		  srcs/monitor_routine.c \

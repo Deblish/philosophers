@@ -19,9 +19,9 @@ static int	parse_single_arg(char *arg, long *dst)
 	if (!ft_str_is_digit(arg))
 		return (0);
 	number = ft_atoi(arg);
-	if (number <= 0) //time, counts, etc, must be > 0
+	if (number <= 0)
 		return (0);
-	*dst = number; //implicit cast to long
+	*dst = number;
 	return (1);
 }
 

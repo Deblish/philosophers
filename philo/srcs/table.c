@@ -12,6 +12,7 @@
 
 #include "philo.h"
 
+//allocate and init forks (mutex array)
 static int	init_forks(t_table *table)
 {
 	int	i;
@@ -25,7 +26,7 @@ static int	init_forks(t_table *table)
 	{
 		if (pthread_mutex_init(&table->forks[i], NULL) != 0)
 		{
-			destroy_forks(table, i);
+			destroy_mutexes(table, i);
 			free(table->forks);
 			table->forks = NULL;
 			return (0);
@@ -35,11 +36,12 @@ static int	init_forks(t_table *table)
 	return (1);
 }
 
+//init print lock (mutex for printing)
 static int	init_print_mutex(t_table *table)
 {
 	if (pthread_mutex_init(&table->print_lock, NULL) != 0)
 	{
-		destroy_forks(table, table->num_philos);
+		destroy_mutexes(table, table->num_philos);
 		free(table->forks);
 		table->forks = NULL;
 		return (0);
@@ -47,6 +49,7 @@ static int	init_print_mutex(t_table *table)
 	return (1);
 }
 
+//allocate and init philosophers (t_philo (thread + info) array)
 static int	init_philosophers(t_table *table)
 {
 	int	i;
@@ -54,7 +57,7 @@ static int	init_philosophers(t_table *table)
 	table->philos = malloc(sizeof(t_philo) * table->num_philos);
 	if (!table->philos)
 	{
-		destroy_forks(table, table->num_philos);
+		destroy_mutexes(table, table->num_philos);
 		free(table->forks);
 		table->forks = NULL;
 		pthread_mutex_destroy(&table->print_lock);
@@ -73,16 +76,13 @@ static int	init_philosophers(t_table *table)
 
 int	init_table(t_table *table)
 {
-	//allocate and init forks (mutex array)
 	if (!init_forks(table))
 		return (0);
-	//init print lock (mutex for printing)
 	if (!init_print_mutex(table))
 		return (0);
-	//allocate and init philosophers (t_philo (thread + info) array)
 	if (!init_philosophers(table))
 		return (0);
-	table->simulation_running = 1; //ready to go
+	table->simulation_running = 1;
 	table->start_time = 0;
 	return (1);
 }

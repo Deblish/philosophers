@@ -76,7 +76,7 @@ void	ft_usleep(long ms);
 void	*philo_routine(void *arg);
 
 //simulation.c
-void	destroy_forks(t_table *table, int count);
+void	destroy_mutexes(t_table *table, int count);
 int		join_threads(t_table *table, int count);
 void	destroy_resources(t_table *table);
 int		start_simulation(t_table *table);

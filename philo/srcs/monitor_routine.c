@@ -28,7 +28,6 @@ static int	philo_starved(t_table *table, int i)
 
 	if (!table->philos[i].done)
 	{
-		//lock around reading philo->last_meal_time
 		waited = ft_get_time_in_ms() - table->philos[i].last_meal_time;
 		if (waited >= table->time_to_die)
 		{
@@ -77,7 +76,7 @@ void	*monitor_routine(void *arg)
 				break ;
 			}
 		}
-		ft_usleep(1); //(small cpu optimization)
+		ft_usleep(1);
 	}
 	return (NULL);
 }

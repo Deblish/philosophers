@@ -12,7 +12,6 @@
 
 #include "philo.h"
 
-//./philo num_philos time_to_die time_to_eat time_to_sleep [must_eat_count]
 int	main(int argc, char **argv)
 {
 	t_table	table;
@@ -20,7 +19,7 @@ int	main(int argc, char **argv)
 	memset(&table, 0, sizeof(t_table));
 	if (!parse_args(argc, argv, &table))
 	{
-		printf("Error: invalid arguments\n");
+		printf("Usage: ./philo t_to_die t_to_eat t_to_sleep [must_eat_n]\n");
 		return (1);
 	}
 	if (!init_table(&table))
@@ -33,6 +32,5 @@ int	main(int argc, char **argv)
 		printf("Error: Simulation start failed\n");
 		return (3);
 	}
-	//cleanup //all full or someone died, rip
 	return (0);
 }

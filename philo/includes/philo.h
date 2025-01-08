@@ -65,7 +65,6 @@ int		parse_args(int argc, char **argv, t_table *table);
 int		init_table(t_table *table);
 
 //libft.c
-int		ft_strlen(const char *str);
 int		ft_str_is_digit(char *str);
 int		ft_atoi(const char *str);
 
@@ -77,6 +76,9 @@ void	ft_usleep(long ms);
 void	*philo_routine(void *arg);
 
 //simulation.c
+void	destroy_forks(t_table *table, int count);
+int		join_threads(t_table *table, int count);
+void	destroy_resources(t_table *table);
 int		start_simulation(t_table *table);
 
 //monitor.c

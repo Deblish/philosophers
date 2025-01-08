@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   routine.c                                          :+:      :+:    :+:   */
+/*   philo_routine.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aapadill <aapadill@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 20:06:52 by aapadill          #+#    #+#             */
-/*   Updated: 2025/01/07 18:18:54 by aapadill         ###   ########.fr       */
+/*   Updated: 2025/01/08 11:43:23 by aapadill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void	*single_philo_case(t_table *table, t_philo *philo)
 {
 	print_state(table, philo->id, "has taken a fork");
 	ft_usleep(table->time_to_die);
+	//destroy all mutexes and free
 	return (NULL);
 }
 
@@ -89,7 +90,6 @@ void	*philo_routine(void *arg)
 
 	philo = (t_philo *)arg;
 	table = philo->table;
-	//handle: if 0?
 	if (table->num_philos == 1)
 		return (single_philo_case(table, philo));
 	while (table->simulation_running && !philo->done)

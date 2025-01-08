@@ -20,17 +20,17 @@ int	main(int argc, char **argv)
 	memset(&table, 0, sizeof(t_table));
 	if (!parse_args(argc, argv, &table))
 	{
-		write(2, "Error: Invalid arguments\n", 24);
+		printf("Error: invalid arguments\n");
 		return (1);
 	}
 	if (!init_table(&table))
 	{
-		write(2, "Error: Init failed\n", 19);
+		printf("Error: Initializing table failed\n");
 		return (2);
 	}
 	if (!start_simulation(&table))
 	{
-		write(2, "Error: Simulation start failed\n", 31);
+		printf("Error: Simulation start failed\n");
 		return (3);
 	}
 	//cleanup //all full or someone died, rip

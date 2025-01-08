@@ -7,9 +7,9 @@ HEADER = philo.h
 SOURCES = srcs/libft.c \
 		  srcs/time.c \
 		  srcs/parse.c \
-		  srcs/monitor.c \
+		  srcs/monitor_routine.c \
 		  srcs/table.c \
-		  srcs/routine.c \
+		  srcs/philo_routine.c \
 		  srcs/simulation.c \
 		  srcs/main.c \
 

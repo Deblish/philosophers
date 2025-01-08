@@ -32,7 +32,6 @@ int	parse_args(int argc, char **argv, t_table *table)
 		return (0);
 	if (!parse_single_arg(argv[1], (long *)&table->num_philos))
 		return (0);
-	//missing if time > 60ms
 	if (!parse_single_arg(argv[2], &table->time_to_die))
 		return (0);
 	if (!parse_single_arg(argv[3], &table->time_to_eat))

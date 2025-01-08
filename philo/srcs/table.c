@@ -12,45 +12,77 @@
 
 #include "philo.h"
 
-int	init_table(t_table *table)
+static int	init_forks(t_table *table)
 {
 	int	i;
 
-	//allocate forks (mutex array)
 	table->forks = malloc(sizeof(t_mutex) * table->num_philos);
 	if (!table->forks)
 		return (0);
 	memset(table->forks, 0, sizeof(t_mutex) * table->num_philos);
-	//init fork
 	i = 0;
 	while (i < table->num_philos)
 	{
 		if (pthread_mutex_init(&table->forks[i], NULL) != 0)
+		{
+			destroy_forks(table, i);
+			free(table->forks);
+			table->forks = NULL;
 			return (0);
+		}
 		i++;
 	}
-	//init print lock (mutex for printing)
+	return (1);
+}
+
+static int	init_print_mutex(t_table *table)
+{
 	if (pthread_mutex_init(&table->print_lock, NULL) != 0)
+	{
+		destroy_forks(table, table->num_philos);
+		free(table->forks);
+		table->forks = NULL;
 		return (0);
-	//allocate philosophers (t_philo (thread + info) array)
+	}
+	return (1);
+}
+
+static int	init_philosophers(t_table *table)
+{
+	int	i;
+
 	table->philos = malloc(sizeof(t_philo) * table->num_philos);
 	if (!table->philos)
-		//free forks
+	{
+		destroy_forks(table, table->num_philos);
+		free(table->forks);
+		table->forks = NULL;
+		pthread_mutex_destroy(&table->print_lock);
 		return (0);
+	}
 	memset(table->philos, 0, sizeof(t_philo) * table->num_philos);
-	//init philosopher info
 	i = 0;
 	while (i < table->num_philos)
 	{
-		table->philos[i].id = i + 1; //numbered 1..n
-		table->philos[i].eat_count = 0; //erasable because memset 0
-		table->philos[i].last_meal_time = 0; //same
-		table->philos[i].done = 0; //same
+		table->philos[i].id = i + 1;
 		table->philos[i].table = table;
-		//thread init done in start_simulation
 		i++;
 	}
-	table->simulation_running = 1; //table exists, so true
-	table->start_time = 0; //erasable because of memset 0 in main
+	return (1);
+}
+
+int	init_table(t_table *table)
+{
+	//allocate and init forks (mutex array)
+	if (!init_forks(table))
+		return (0);
+	//init print lock (mutex for printing)
+	if (!init_print_mutex(table))
+		return (0);
+	//allocate and init philosophers (t_philo (thread + info) array)
+	if (!init_philosophers(table))
+		return (0);
+	table->simulation_running = 1; //ready to go
+	table->start_time = 0;
 	return (1);
 }

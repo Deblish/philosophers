@@ -14,11 +14,11 @@
 
 long	ft_get_time_in_ms(void)
 {
-	struct timeval	tv;
+	struct timeval	t;
 	long			ms;
 
-	gettimeofday(&tv, NULL);
-	ms = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
+	gettimeofday(&t, NULL);
+	ms = (t.tv_sec * 1000) + (t.tv_usec / 1000);
 	return (ms);
 }
 

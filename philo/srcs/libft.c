@@ -22,16 +22,6 @@ static int	ft_isdigit(int c)
 	return (c >= '0' && c <= '9');
 }
 
-int	ft_strlen(const char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
-
 int	ft_str_is_digit(char *str)
 {
 	int	i;
@@ -48,8 +38,6 @@ int	ft_str_is_digit(char *str)
 	return (1);
 }
 
-//add len check so 9999999999121924179 doesn't overflow
-//if ft_strlen(str) > 10, return 0 
 int	ft_atoi(const char *str)
 {
 	long	result;

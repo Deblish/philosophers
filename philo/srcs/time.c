@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-long	ft_get_time_in_ms(void)
+long	get_time_in_ms(void)
 {
 	struct timeval	t;
 	long			ms;
@@ -26,7 +26,7 @@ void	ft_usleep(long ms)
 {
 	long	start;
 
-	start = ft_get_time_in_ms();
-	while ((ft_get_time_in_ms() - start) < ms)
+	start = get_time_in_ms();
+	while ((get_time_in_ms() - start) < ms)
 		usleep(1);
 }

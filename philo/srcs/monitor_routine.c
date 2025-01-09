@@ -12,27 +12,17 @@
 
 #include "philo.h"
 
-static void	announce_death(t_table *table, int id)
-{
-	long	timestamp;
-
-	pthread_mutex_lock(&table->print_lock);
-	timestamp = ft_get_time_in_ms() - table->start_time;
-	printf("%ld %d died\n", timestamp, id);
-	pthread_mutex_unlock(&table->print_lock);
-}
-
 static int	philo_starved(t_table *table, int i)
 {
-	long	waited;
+	long	wait;
 
-	if (!table->philos[i].done)
+	if (!get_philo_done(&table->philos[i]))
 	{
-		waited = ft_get_time_in_ms() - table->philos[i].last_meal_time;
-		if (waited >= table->time_to_die)
+		wait = get_time_in_ms() - get_philo_last_meal_time(&table->philos[i]);
+		if (wait >= table->time_to_die)
 		{
-			table->simulation_running = 0;
-			announce_death(table, table->philos[i].id);
+			set_simulation_running(table, 0);
+			announce(table, table->philos[i].id, "died");
 			return (1);
 		}
 	}
@@ -46,7 +36,7 @@ static int	is_everyone_full(t_table *table)
 	i = 0;
 	while (i < table->num_philos)
 	{
-		if (!table->philos[i].done)
+		if (!get_philo_done(&table->philos[i]))
 			return (0);
 		i++;
 	}
@@ -59,10 +49,10 @@ void	*monitor_routine(void *arg)
 	int		i;
 
 	table = (t_table *)arg;
-	while (table->simulation_running)
+	while (get_simulation_running(table))
 	{
 		i = 0;
-		while (i < table->num_philos && table->simulation_running)
+		while (i < table->num_philos && get_simulation_running(table))
 		{
 			if (philo_starved(table, i))
 				break ;
@@ -72,7 +62,7 @@ void	*monitor_routine(void *arg)
 		{
 			if (is_everyone_full(table))
 			{
-				table->simulation_running = 0;
+				set_simulation_running(table, 0);
 				break ;
 			}
 		}

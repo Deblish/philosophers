@@ -14,30 +14,25 @@
 
 static void	print_state(t_table *table, int id, const char *msg)
 {
-	long	timestamp;
-
-	pthread_mutex_lock(&table->print_lock);
-	if (table->simulation_running)
+	if (get_simulation_running(table))
 	{
-		timestamp = ft_get_time_in_ms() - table->start_time;
-		printf("%ld %d %s\n", timestamp, id, msg);
+		announce(table, id, msg);
 	}
-	pthread_mutex_unlock(&table->print_lock);
 }
 
 static void	philo_eat(t_philo *philo)
 {
 	t_table	*table;
-	long	now;
 
 	table = philo->table;
-	now = ft_get_time_in_ms();
-	philo->last_meal_time = now;
+	set_philo_last_meal_time(philo, get_time_in_ms());
 	print_state(table, philo->id, "is eating");
 	ft_usleep(table->time_to_eat);
 	philo->eat_count += 1;
 	if (table->must_eat && philo->eat_count >= table->must_eat_count)
-		philo->done = 1;
+	{
+		set_philo_done(philo, 1);
+	}
 }
 
 static void	pickup_forks(t_philo *philo)
@@ -87,11 +82,12 @@ void	*philo_routine(void *arg)
 		ft_usleep(table->time_to_die);
 		return (NULL);
 	}
-	while (table->simulation_running && !philo->done)
+	set_philo_done(philo, 0);
+	while (get_simulation_running(table) && !get_philo_done(philo))
 	{
 		print_state(table, philo->id, "is thinking");
 		ft_usleep(1);
-		if (!table->simulation_running)
+		if (!get_simulation_running(table))
 			break ;
 		pickup_forks(philo);
 		philo_eat(philo);

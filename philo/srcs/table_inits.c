@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   table.c                                            :+:      :+:    :+:   */
+/*   table_inits.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aapadill <aapadill@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 11:19:27 by aapadill          #+#    #+#             */
-/*   Updated: 2025/01/07 18:18:19 by aapadill         ###   ########.fr       */
+/*   Updated: 2025/01/09 14:28:18 by aapadill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 //allocate and init forks (mutex array)
-static int	init_forks(t_table *table)
+int	init_forks(t_table *table)
 {
 	int	i;
 
@@ -26,7 +26,7 @@ static int	init_forks(t_table *table)
 	{
 		if (pthread_mutex_init(&table->forks[i], NULL) != 0)
 		{
-			destroy_mutexes(table, i);
+			destroy_forks(table, i);
 			free(table->forks);
 			table->forks = NULL;
 			return (0);
@@ -37,11 +37,11 @@ static int	init_forks(t_table *table)
 }
 
 //init print lock (mutex for printing)
-static int	init_print_mutex(t_table *table)
+int	init_print_lock(t_table *table)
 {
 	if (pthread_mutex_init(&table->print_lock, NULL) != 0)
 	{
-		destroy_mutexes(table, table->num_philos);
+		destroy_forks(table, table->num_philos);
 		free(table->forks);
 		table->forks = NULL;
 		return (0);
@@ -49,15 +49,29 @@ static int	init_print_mutex(t_table *table)
 	return (1);
 }
 
+//init simulation lock (mutex for simulation)
+int	init_sim_lock(t_table *table)
+{
+	if (pthread_mutex_init(&table->sim_lock, NULL) != 0)
+	{
+		destroy_forks(table, table->num_philos);
+		free(table->forks);
+		table->forks = NULL;
+		pthread_mutex_destroy(&table->print_lock);
+		return (0);
+	}
+	return (1);
+}
+
 //allocate and init philosophers (t_philo (thread + info) array)
-static int	init_philosophers(t_table *table)
+int	init_philosophers(t_table *table)
 {
 	int	i;
 
 	table->philos = malloc(sizeof(t_philo) * table->num_philos);
 	if (!table->philos)
 	{
-		destroy_mutexes(table, table->num_philos);
+		destroy_forks(table, table->num_philos);
 		free(table->forks);
 		table->forks = NULL;
 		pthread_mutex_destroy(&table->print_lock);
@@ -74,15 +88,24 @@ static int	init_philosophers(t_table *table)
 	return (1);
 }
 
-int	init_table(t_table *table)
+//init meal lock mutexes (meal lock mutex array)
+int	init_meal_locks(t_table *table)
 {
-	if (!init_forks(table))
-		return (0);
-	if (!init_print_mutex(table))
-		return (0);
-	if (!init_philosophers(table))
-		return (0);
-	table->simulation_running = 1;
-	table->start_time = 0;
+	int	i;
+
+	i = 0;
+	while (i < table->num_philos)
+	{
+		if (pthread_mutex_init(&table->philos[i].meal_lock, NULL) != 0)
+		{
+			destroy_forks(table, table->num_philos);
+			free(table->forks);
+			table->forks = NULL;
+			pthread_mutex_destroy(&table->print_lock);
+			free(table->philos);
+			return (0);
+		}
+		i++;
+	}
 	return (1);
 }

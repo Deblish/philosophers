@@ -1,14 +1,16 @@
 NAME = philo
 CC = cc
 INCLUDES = -Iincludes
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g -O0
 HEADER = philo.h
 
 SOURCES = srcs/ft_atoi.c \
 		  srcs/time.c \
 		  srcs/parse.c \
+		  srcs/getters.c \
+		  srcs/setters.c \
 		  srcs/monitor_routine.c \
-		  srcs/table.c \
+		  srcs/table_inits.c \
 		  srcs/philo_routine.c \
 		  srcs/simulation.c \
 		  srcs/main.c \

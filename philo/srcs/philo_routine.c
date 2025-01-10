@@ -6,13 +6,13 @@
 /*   By: aapadill <aapadill@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 20:06:52 by aapadill          #+#    #+#             */
-/*   Updated: 2025/01/10 15:52:55 by aapadill         ###   ########.fr       */
+/*   Updated: 2025/01/10 16:24:55 by aapadill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	philo_eat(t_philo *philo)
+void	philo_eat(t_philo *philo)
 {
 	t_table	*table;
 
@@ -27,7 +27,7 @@ static void	philo_eat(t_philo *philo)
 	}
 }
 
-static void	pickup_forks(t_philo *philo)
+void	pickup_forks(t_philo *philo)
 {
 	int	left;
 	int	right;
@@ -50,7 +50,7 @@ static void	pickup_forks(t_philo *philo)
 	}
 }
 
-static void	putdown_forks(t_philo *philo)
+void	putdown_forks(t_philo *philo)
 {
 	int	left;
 	int	right;

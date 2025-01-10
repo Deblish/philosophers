@@ -6,7 +6,7 @@
 /*   By: aapadill <aapadill@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 18:56:44 by aapadill          #+#    #+#             */
-/*   Updated: 2025/01/07 18:12:17 by aapadill         ###   ########.fr       */
+/*   Updated: 2025/01/10 16:26:09 by aapadill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,12 @@ typedef struct s_table
 	t_mutex			print_lock;
 }	t_table;
 
+//philo_states.c
+void	print_state(t_table *table, int id, const char *msg);
+int		thinking_state(t_table *table, t_philo *philo);
+int		eating_state(t_table *table, t_philo *philo);
+int		sleeping_state(t_table *table, t_philo *philo);
+
 //getters.c
 void	announce(t_table *table, int id, const char *msg);
 int		get_philo_done(t_philo *philo);
@@ -92,6 +98,9 @@ long	get_time_in_ms(void);
 void	ft_usleep(long ms);
 
 //routine.c
+void	philo_eat(t_philo *philo);
+void	pickup_forks(t_philo *philo);
+void	putdown_forks(t_philo *philo);
 void	*philo_routine(void *arg);
 
 //simulation.c
@@ -103,11 +112,5 @@ int		create_philo_threads(t_table *table);
 
 //monitor.c
 void	*monitor_routine(void *arg);
-
-//philo_states.c
-void	print_state(t_table *table, int id, const char *msg);
-int		thinking_state(t_table *table, t_philo *philo);
-int		eating_state(t_table *table, t_philo *philo);
-int		sleeping_state(t_table *table, t_philo *philo);
 
 #endif

@@ -12,14 +12,6 @@
 
 #include "philo.h"
 
-static void	print_state(t_table *table, int id, const char *msg)
-{
-	if (get_simulation_running(table))
-	{
-		announce(table, id, msg);
-	}
-}
-
 static void	philo_eat(t_philo *philo)
 {
 	t_table	*table;
@@ -69,34 +61,6 @@ static void	putdown_forks(t_philo *philo)
 	pthread_mutex_unlock(&philo->table->forks[right]);
 }
 
-static int	thinking_state(t_table *table, t_philo *philo)
-{
-	if (!get_simulation_running(table))
-		return (0);
-	print_state(table, philo->id, "is thinking");
-	ft_usleep(1);
-	return (1);
-}
-
-static int	eating_state(t_table *table, t_philo *philo)
-{
-	if (!get_simulation_running(table))
-		return (0);
-	pickup_forks(philo);
-	philo_eat(philo);
-	putdown_forks(philo);
-	return (1);
-}
-
-static int	sleeping_state(t_table *table, t_philo *philo)
-{
-	if (!get_simulation_running(table))
-		return (0);
-	print_state(table, philo->id, "is sleeping");
-	ft_usleep(table->time_to_sleep);
-	return (1);
-}
-
 void	*philo_routine(void *arg)
 {
 	t_philo	*philo;
@@ -115,19 +79,10 @@ void	*philo_routine(void *arg)
 		ft_usleep(1);
 	while (get_simulation_running(table) && !get_philo_done(philo))
 	{
-		//print_state(table, philo->id, "is thinking");
-		//ft_usleep(1);
-		if (!get_simulation_running(table))
-			break ;
 		if (!thinking_state(table, philo))
 			break ;
-		//pickup_forks(philo);
-		//philo_eat(philo);
-		//putdown_forks(philo);
 		if (!eating_state(table, philo))
 			break ;
-		//print_state(table, philo->id, "is sleeping");
-		//ft_usleep(table->time_to_sleep);
 		if (!sleeping_state(table, philo))
 			break ;
 	}

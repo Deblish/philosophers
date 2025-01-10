@@ -14,11 +14,10 @@
 
 static int	philo_starved(t_table *table, int i)
 {
-	//long	wait;
 	if (!get_philo_done(&table->philos[i]))
 	{
-		//wait = get_time_in_ms() - get_philo_last_meal_time(&table->philos[i]);
-		if (get_time_in_ms() - get_philo_last_meal_time(&table->philos[i]) >= table->time_to_die)
+		if (get_time_in_ms() - get_philo_last_meal_time(&table->philos[i])
+			>= table->time_to_die)
 		{
 			announce(table, table->philos[i].id, "died");
 			set_simulation_running(table, 0);

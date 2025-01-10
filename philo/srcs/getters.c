@@ -14,9 +14,6 @@
 
 void	announce(t_table *table, int id, const char *msg)
 {
-	//long	timestamp;
-
-	//timestamp = get_time_in_ms() - table->start_time;
 	pthread_mutex_lock(&table->print_lock);
 	if (get_simulation_running(table))
 		printf("%ld %d %s\n", get_time_in_ms() - table->start_time, id, msg);

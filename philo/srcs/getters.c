@@ -6,7 +6,7 @@
 /*   By: aapadill <aapadill@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 16:16:07 by aapadill          #+#    #+#             */
-/*   Updated: 2025/01/09 16:16:09 by aapadill         ###   ########.fr       */
+/*   Updated: 2025/01/10 15:30:49 by aapadill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 
 void	announce(t_table *table, int id, const char *msg)
 {
-	long	timestamp;
+	//long	timestamp;
 
-	timestamp = get_time_in_ms() - table->start_time;
+	//timestamp = get_time_in_ms() - table->start_time;
 	pthread_mutex_lock(&table->print_lock);
-	printf("%ld %d %s\n", timestamp, id, msg);
+	if (get_simulation_running(table))
+		printf("%ld %d %s\n", get_time_in_ms() - table->start_time, id, msg);
 	pthread_mutex_unlock(&table->print_lock);
 }
 

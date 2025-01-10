@@ -6,7 +6,7 @@
 /*   By: aapadill <aapadill@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 20:06:52 by aapadill          #+#    #+#             */
-/*   Updated: 2025/01/08 11:43:23 by aapadill         ###   ########.fr       */
+/*   Updated: 2025/01/10 15:52:55 by aapadill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,34 @@ static void	putdown_forks(t_philo *philo)
 	pthread_mutex_unlock(&philo->table->forks[right]);
 }
 
+static int	thinking_state(t_table *table, t_philo *philo)
+{
+	if (!get_simulation_running(table))
+		return (0);
+	print_state(table, philo->id, "is thinking");
+	ft_usleep(1);
+	return (1);
+}
+
+static int	eating_state(t_table *table, t_philo *philo)
+{
+	if (!get_simulation_running(table))
+		return (0);
+	pickup_forks(philo);
+	philo_eat(philo);
+	putdown_forks(philo);
+	return (1);
+}
+
+static int	sleeping_state(t_table *table, t_philo *philo)
+{
+	if (!get_simulation_running(table))
+		return (0);
+	print_state(table, philo->id, "is sleeping");
+	ft_usleep(table->time_to_sleep);
+	return (1);
+}
+
 void	*philo_routine(void *arg)
 {
 	t_philo	*philo;
@@ -83,17 +111,25 @@ void	*philo_routine(void *arg)
 		return (NULL);
 	}
 	set_philo_done(philo, 0);
+	if (philo->id % 2 == 0)
+		ft_usleep(1);
 	while (get_simulation_running(table) && !get_philo_done(philo))
 	{
-		print_state(table, philo->id, "is thinking");
-		ft_usleep(1);
+		//print_state(table, philo->id, "is thinking");
+		//ft_usleep(1);
 		if (!get_simulation_running(table))
 			break ;
-		pickup_forks(philo);
-		philo_eat(philo);
-		putdown_forks(philo);
-		print_state(table, philo->id, "is sleeping");
-		ft_usleep(table->time_to_sleep);
+		if (!thinking_state(table, philo))
+			break ;
+		//pickup_forks(philo);
+		//philo_eat(philo);
+		//putdown_forks(philo);
+		if (!eating_state(table, philo))
+			break ;
+		//print_state(table, philo->id, "is sleeping");
+		//ft_usleep(table->time_to_sleep);
+		if (!sleeping_state(table, philo))
+			break ;
 	}
 	return (NULL);
 }

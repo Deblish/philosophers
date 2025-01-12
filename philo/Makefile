@@ -1,7 +1,7 @@
 NAME = philo
 CC = cc
 INCLUDES = -Iincludes
-CFLAGS = -Wall -Wextra -Werror -g -O0
+CFLAGS = -Wall -Wextra -Werror #-g -O0
 HEADER = philo.h
 
 SOURCES = srcs/ft_atoi.c \

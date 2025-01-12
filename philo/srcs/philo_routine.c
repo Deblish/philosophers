@@ -75,15 +75,24 @@ void	*philo_routine(void *arg)
 		return (NULL);
 	}
 	set_philo_done(philo, 0);
-	if (philo->id % 2 == 0)
-		ft_usleep(1);
-	while (get_simulation_running(table) && !get_philo_done(philo))
+	//if (philo->id % 2 == 0)
+	//	ft_usleep(1);
+	while (philo->id % 2 == 0 && get_simulation_running(table) && !get_philo_done(philo))
 	{
 		if (!thinking_state(table, philo))
 			break ;
 		if (!eating_state(table, philo))
 			break ;
 		if (!sleeping_state(table, philo))
+			break ;
+	}
+	while (philo->id % 2 != 0 && get_simulation_running(table) && !get_philo_done(philo))
+	{
+		if (!eating_state(table, philo))
+			break ;
+		if (!sleeping_state(table, philo))
+			break ;
+		if (!thinking_state(table, philo))
 			break ;
 	}
 	return (NULL);

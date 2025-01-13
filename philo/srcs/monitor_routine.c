@@ -64,7 +64,7 @@ void	*monitor_routine(void *arg)
 				break ;
 			}
 		}
-		ft_usleep(1);
+		ft_usleep(1, table);
 	}
 	return (NULL);
 }

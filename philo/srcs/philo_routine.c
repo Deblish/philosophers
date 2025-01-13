@@ -6,7 +6,7 @@
 /*   By: aapadill <aapadill@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 20:06:52 by aapadill          #+#    #+#             */
-/*   Updated: 2025/01/13 10:52:38 by aapadill         ###   ########.fr       */
+/*   Updated: 2025/01/13 14:24:02 by aapadill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	philo_eat(t_philo *philo)
 	table = philo->table;
 	set_philo_last_meal_time(philo, get_time_in_ms());
 	print_state(table, philo->id, "is eating");
-	ft_usleep(table->time_to_eat);
+	ft_usleep(table->time_to_eat, table);
 	philo->eat_count += 1;
 	if (table->must_eat && philo->eat_count >= table->must_eat_count)
 	{
@@ -71,11 +71,11 @@ void	*philo_routine(void *arg)
 	if (table->num_philos == 1)
 	{
 		print_state(table, philo->id, "has taken a fork");
-		ft_usleep(table->time_to_die);
+		ft_usleep(table->time_to_die, table);
 		return (NULL);
 	}
 	set_philo_done(philo, 0);
-	if (philo->id % 2 == 0)
+	if (philo->id % 2 != 0)
 	{
 		while (get_simulation_running(table) && !get_philo_done(philo))
 			if (!cycle_think_first(table, philo))

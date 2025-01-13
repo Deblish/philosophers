@@ -95,7 +95,7 @@ int		ft_atoi(const char *str);
 
 //time.c
 long	get_time_in_ms(void);
-void	ft_usleep(long ms);
+void	ft_usleep(long ms, t_table *table);
 
 //cycles.c
 int		cycle_think_first(t_table *table, t_philo *philo);

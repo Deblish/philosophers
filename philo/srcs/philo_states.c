@@ -25,7 +25,7 @@ int	thinking_state(t_table *table, t_philo *philo)
 	if (!get_simulation_running(table))
 		return (0);
 	print_state(table, philo->id, "is thinking");
-	ft_usleep(5);
+	ft_usleep(5, table);
 	return (1);
 }
 
@@ -44,6 +44,6 @@ int	sleeping_state(t_table *table, t_philo *philo)
 	if (!get_simulation_running(table))
 		return (0);
 	print_state(table, philo->id, "is sleeping");
-	ft_usleep(table->time_to_sleep);
+	ft_usleep(table->time_to_sleep, table);
 	return (1);
 }

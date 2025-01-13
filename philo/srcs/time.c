@@ -22,11 +22,11 @@ long	get_time_in_ms(void)
 	return (ms);
 }
 
-void	ft_usleep(long ms)
+void	ft_usleep(long ms, t_table *table)
 {
 	long	start;
 
 	start = get_time_in_ms();
-	while ((get_time_in_ms() - start) < ms)
+	while (get_simulation_running(table) && ((get_time_in_ms() - start) < ms))
 		usleep(1000);
 }

@@ -12,6 +12,7 @@ SOURCES = srcs/ft_atoi.c \
 		  srcs/setters.c \
 		  srcs/monitor_routine.c \
 		  srcs/table_inits.c \
+		  srcs/cycles.c \
 		  srcs/philo_routine.c \
 		  srcs/simulation.c \
 		  srcs/main.c \

@@ -97,6 +97,10 @@ int		ft_atoi(const char *str);
 long	get_time_in_ms(void);
 void	ft_usleep(long ms);
 
+//cycles.c
+int		cycle_think_first(t_table *table, t_philo *philo);
+int		cycle_eat_first(t_table *table, t_philo *philo);
+
 //routine.c
 void	philo_eat(t_philo *philo);
 void	pickup_forks(t_philo *philo);

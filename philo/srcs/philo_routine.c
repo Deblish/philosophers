@@ -6,7 +6,7 @@
 /*   By: aapadill <aapadill@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 20:06:52 by aapadill          #+#    #+#             */
-/*   Updated: 2025/01/10 16:24:55 by aapadill         ###   ########.fr       */
+/*   Updated: 2025/01/13 10:52:38 by aapadill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,25 +75,17 @@ void	*philo_routine(void *arg)
 		return (NULL);
 	}
 	set_philo_done(philo, 0);
-	//if (philo->id % 2 == 0)
-	//	ft_usleep(1);
-	while (philo->id % 2 == 0 && get_simulation_running(table) && !get_philo_done(philo))
+	if (philo->id % 2 == 0)
 	{
-		if (!thinking_state(table, philo))
-			break ;
-		if (!eating_state(table, philo))
-			break ;
-		if (!sleeping_state(table, philo))
-			break ;
+		while (get_simulation_running(table) && !get_philo_done(philo))
+			if (!cycle_think_first(table, philo))
+				break ;
 	}
-	while (philo->id % 2 != 0 && get_simulation_running(table) && !get_philo_done(philo))
+	else
 	{
-		if (!eating_state(table, philo))
-			break ;
-		if (!sleeping_state(table, philo))
-			break ;
-		if (!thinking_state(table, philo))
-			break ;
+		while (get_simulation_running(table) && !get_philo_done(philo))
+			if (!cycle_eat_first(table, philo))
+				break ;
 	}
 	return (NULL);
 }
